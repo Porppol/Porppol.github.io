@@ -5,188 +5,207 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PurpleUI</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      margin: 0;
       font-family: Arial, sans-serif;
-      transition: background 0.5s ease, color 0.5s ease;
-      background: #000;
-      color: #fff;
+      background: black;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
 
-    /* Themes */
-    body.dark { background: #000; color: #fff; }
-    body.light { background: #f0f0f0; color: #222; }
-    body.red { background: #330000; color: #ffcccc; }
-
-    .ui-box {
-      background: rgba(60, 60, 60, 0.6);
-      backdrop-filter: blur(15px);
+    .ui {
+      background: linear-gradient(135deg, #444, #666);
       padding: 20px;
       border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-      width: 350px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 20px rgba(0,0,0,0.7);
+      width: 420px;
     }
 
-    /* Tabs */
-    .tab-buttons {
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      color: #d4a3ff;
+    }
+
+    .tabs {
       display: flex;
       justify-content: space-around;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
 
-    .tab-btn {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 10px;
+    .tab {
+      padding: 10px 15px;
       cursor: pointer;
-      font-weight: bold;
-      background: linear-gradient(135deg, #7f00ff, #e100ff);
-      color: #fff;
-      margin: 0 5px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.1);
+      transition: background 0.3s;
     }
 
-    .tab-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 10px rgba(128, 0, 255, 0.6);
+    .tab:hover {
+      background: rgba(255,255,255,0.2);
     }
 
-    .tab-content {
+    .tab.active {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .content {
       display: none;
     }
 
-    .tab-content.active {
+    .content.active {
       display: block;
-      text-align: center;
     }
 
-    /* Troll button */
-    #trollBtn {
-      padding: 15px 40px;
-      border-radius: 30px;
-      font-size: 1rem;
-      font-weight: bold;
+    .glass-button {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      text-align: center;
+      border-radius: 15px;
       border: none;
+      font-size: 16px;
       cursor: pointer;
-      color: #fff;
-      background: linear-gradient(135deg, #7f00ff, #e100ff);
-      box-shadow: 0 4px 15px rgba(128, 0, 255, 0.6);
+      color: white;
+      background: linear-gradient(135deg, #a855f7, #7e22ce);
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 10px rgba(168,85,247,0.7);
+      transition: transform 0.2s;
+    }
+
+    .glass-button:hover {
+      transform: scale(1.05);
     }
 
     /* Calculator */
     .calculator {
-      margin-top: 10px;
-    }
-
-    .calculator input {
-      width: 100%;
-      font-size: 1.2rem;
-      padding: 10px;
-      border-radius: 10px;
-      border: none;
-      text-align: right;
-      margin-bottom: 10px;
-      background: rgba(255, 255, 255, 0.1);
-      color: inherit;
-    }
-
-    .calc-buttons {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 10px;
     }
 
-    .calc-btn {
+    .calculator input {
+      grid-column: span 4;
+      padding: 10px;
+      font-size: 1.2rem;
+      text-align: right;
+      border-radius: 10px;
+      border: none;
+    }
+
+    .calculator button {
       padding: 15px;
       font-size: 1rem;
       border: none;
       border-radius: 10px;
+      background: rgba(255,255,255,0.1);
+      color: white;
       cursor: pointer;
-      background: linear-gradient(135deg, #7f00ff, #e100ff);
-      color: #fff;
-      box-shadow: 0 2px 8px rgba(128, 0, 255, 0.5);
-      transition: transform 0.2s ease;
+      transition: background 0.3s;
     }
 
-    .calc-btn:hover {
-      transform: scale(1.05);
+    .calculator button:hover {
+      background: rgba(255,255,255,0.3);
     }
 
-    /* Theme buttons */
-    .theme-options button {
-      margin: 5px;
-      padding: 10px 20px;
-      border: none;
+    /* Themes */
+    .theme-option {
+      margin: 5px 0;
+      padding: 10px;
       border-radius: 10px;
       cursor: pointer;
-      font-weight: bold;
+      background: rgba(255,255,255,0.1);
+      text-align: center;
     }
-    .dark-btn { background: #222; color: #fff; }
-    .light-btn { background: #ddd; color: #222; }
-    .red-btn { background: #900; color: #fff; }
+
+    .theme-option:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* Light theme */
+    body.light {
+      background: white;
+      color: black;
+    }
+
+    body.light .ui {
+      background: linear-gradient(135deg, #eee, #ccc);
+    }
+
+    /* Red theme */
+    body.red {
+      background: #220000;
+      color: #ffaaaa;
+    }
+
+    body.red .ui {
+      background: linear-gradient(135deg, #660000, #aa0000);
+    }
   </style>
 </head>
-<body class="dark">
-  <div class="ui-box">
-    <!-- Tab Buttons -->
-    <div class="tab-buttons">
-      <button class="tab-btn" data-tab="troll">Troll</button>
-      <button class="tab-btn" data-tab="calc">Calculator</button>
-      <button class="tab-btn" data-tab="theme">Themes</button>
+<body>
+  <div class="ui">
+    <h1>PurpleUI</h1>
+    <div class="tabs">
+      <div class="tab active" data-tab="fun">Fun</div>
+      <div class="tab" data-tab="calculator">Calculator</div>
+      <div class="tab" data-tab="themes">Themes</div>
     </div>
 
-    <!-- Tab Contents -->
-    <div id="troll" class="tab-content active">
-      <button id="trollBtn">Click Me</button>
+    <!-- Fun Tab -->
+    <div class="content active" id="fun">
+      <button class="glass-button" id="trollBtn">Click Me</button>
+      <button class="glass-button" id="fullscreenBtn">Fullscreen</button>
+      <button class="glass-button" id="youtubeBtn">Random YouTube</button>
     </div>
 
-    <div id="calc" class="tab-content">
+    <!-- Calculator Tab -->
+    <div class="content" id="calculator">
       <div class="calculator">
-        <input type="text" id="calcDisplay" readonly>
-        <div class="calc-buttons">
-          <button class="calc-btn">7</button>
-          <button class="calc-btn">8</button>
-          <button class="calc-btn">9</button>
-          <button class="calc-btn">/</button>
-          <button class="calc-btn">4</button>
-          <button class="calc-btn">5</button>
-          <button class="calc-btn">6</button>
-          <button class="calc-btn">*</button>
-          <button class="calc-btn">1</button>
-          <button class="calc-btn">2</button>
-          <button class="calc-btn">3</button>
-          <button class="calc-btn">-</button>
-          <button class="calc-btn">0</button>
-          <button class="calc-btn">.</button>
-          <button class="calc-btn">=</button>
-          <button class="calc-btn">+</button>
-        </div>
+        <input type="text" id="calcDisplay" disabled>
+        <button onclick="appendCalc('7')">7</button>
+        <button onclick="appendCalc('8')">8</button>
+        <button onclick="appendCalc('9')">9</button>
+        <button onclick="appendCalc('/')">÷</button>
+        <button onclick="appendCalc('4')">4</button>
+        <button onclick="appendCalc('5')">5</button>
+        <button onclick="appendCalc('6')">6</button>
+        <button onclick="appendCalc('*')">×</button>
+        <button onclick="appendCalc('1')">1</button>
+        <button onclick="appendCalc('2')">2</button>
+        <button onclick="appendCalc('3')">3</button>
+        <button onclick="appendCalc('-')">−</button>
+        <button onclick="appendCalc('0')">0</button>
+        <button onclick="appendCalc('.')">.</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="appendCalc('+')">+</button>
+        <button onclick="clearCalc()" style="grid-column: span 4; background: rgba(255,0,0,0.3);">C</button>
       </div>
     </div>
 
-    <div id="theme" class="tab-content">
-      <h3>Select Theme</h3>
-      <div class="theme-options">
-        <button class="dark-btn">Dark</button>
-        <button class="light-btn">Light</button>
-        <button class="red-btn">Red</button>
-      </div>
+    <!-- Themes Tab -->
+    <div class="content" id="themes">
+      <div class="theme-option" onclick="setTheme('dark')">Dark Theme</div>
+      <div class="theme-option" onclick="setTheme('light')">Light Theme</div>
+      <div class="theme-option" onclick="setTheme('red')">Red Theme</div>
     </div>
   </div>
 
   <script>
-    // Tab switching
-    const tabs = document.querySelectorAll(".tab-btn");
-    const contents = document.querySelectorAll(".tab-content");
+    // Tabs
+    const tabs = document.querySelectorAll(".tab");
+    const contents = document.querySelectorAll(".content");
     tabs.forEach(tab => {
       tab.addEventListener("click", () => {
+        tabs.forEach(t => t.classList.remove("active"));
         contents.forEach(c => c.classList.remove("active"));
+        tab.classList.add("active");
         document.getElementById(tab.dataset.tab).classList.add("active");
       });
     });
@@ -194,39 +213,51 @@
     // Troll button
     const trollBtn = document.getElementById("trollBtn");
     trollBtn.addEventListener("click", () => {
-      trollBtn.textContent = "YOU BEEN TROLLED";
-      setTimeout(() => {
-        trollBtn.textContent = "Click Me";
-      }, 10000);
+      const original = trollBtn.textContent;
+      trollBtn.textContent = "YOU BEEN TROLLED 😈";
+      setTimeout(() => trollBtn.textContent = original, 10000);
     });
 
-    // Calculator logic
-    const display = document.getElementById("calcDisplay");
-    const calcButtons = document.querySelectorAll(".calc-btn");
-    calcButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        if (btn.textContent === "=") {
-          try {
-            display.value = eval(display.value);
-          } catch {
-            display.value = "Error";
-          }
-        } else {
-          display.value += btn.textContent;
-        }
-      });
+    // Fullscreen
+    document.getElementById("fullscreenBtn").addEventListener("click", () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
     });
 
-    // Theme switching
-    document.querySelector(".dark-btn").addEventListener("click", () => {
-      document.body.className = "dark";
+    // Random YouTube
+    const youtubeLinks = [
+      "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "https://www.youtube.com/watch?v=oHg5SJYRHA0",
+      "https://www.youtube.com/watch?v=ZZ5LpwO-An4",
+      "https://www.youtube.com/watch?v=QH2-TGUlwu4"
+    ];
+    document.getElementById("youtubeBtn").addEventListener("click", () => {
+      const random = youtubeLinks[Math.floor(Math.random() * youtubeLinks.length)];
+      window.open(random, "_blank");
     });
-    document.querySelector(".light-btn").addEventListener("click", () => {
-      document.body.className = "light";
-    });
-    document.querySelector(".red-btn").addEventListener("click", () => {
-      document.body.className = "red";
-    });
+
+    // Calculator
+    function appendCalc(val) {
+      document.getElementById("calcDisplay").value += val;
+    }
+    function clearCalc() {
+      document.getElementById("calcDisplay").value = "";
+    }
+    function calculate() {
+      try {
+        document.getElementById("calcDisplay").value = eval(document.getElementById("calcDisplay").value);
+      } catch {
+        document.getElementById("calcDisplay").value = "Error";
+      }
+    }
+
+    // Theme switcher
+    function setTheme(theme) {
+      document.body.className = theme === "dark" ? "" : theme;
+    }
   </script>
 </body>
 </html>
