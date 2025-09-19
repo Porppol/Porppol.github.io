@@ -12,58 +12,76 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #000;
       font-family: Arial, sans-serif;
       transition: background 0.5s ease, color 0.5s ease;
+      background: #000;
+      color: #fff;
     }
 
-    body.light {
-      background: #f0f0f0;
-      color: #222;
-    }
+    /* Themes */
+    body.dark { background: #000; color: #fff; }
+    body.light { background: #f0f0f0; color: #222; }
+    body.red { background: #330000; color: #ffcccc; }
 
     .ui-box {
-      background: rgba(60, 60, 60, 0.6); /* semi-transparent for blur */
+      background: rgba(60, 60, 60, 0.6);
       backdrop-filter: blur(15px);
-      padding: 40px;
+      padding: 20px;
       border-radius: 20px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
+      width: 350px;
     }
 
-    .glass-btn {
+    /* Tabs */
+    .tab-buttons {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      background: linear-gradient(135deg, #7f00ff, #e100ff);
+      color: #fff;
+      margin: 0 5px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(128, 0, 255, 0.6);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      text-align: center;
+    }
+
+    /* Troll button */
+    #trollBtn {
       padding: 15px 40px;
+      border-radius: 30px;
       font-size: 1rem;
       font-weight: bold;
       border: none;
-      border-radius: 30px;
       cursor: pointer;
       color: #fff;
       background: linear-gradient(135deg, #7f00ff, #e100ff);
-      backdrop-filter: blur(10px);
       box-shadow: 0 4px 15px rgba(128, 0, 255, 0.6);
-      transition: all 0.3s ease;
     }
 
-    .glass-btn:hover {
-      transform: scale(1.08);
-      box-shadow: 0 6px 20px rgba(128, 0, 255, 0.8);
-    }
-
+    /* Calculator */
     .calculator {
-      display: none;
-      margin-top: 20px;
-      padding: 20px;
-      border-radius: 15px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-    }
-
-    body.light .calculator {
-      background: rgba(0, 0, 0, 0.1);
+      margin-top: 10px;
     }
 
     .calculator input {
@@ -72,8 +90,10 @@
       padding: 10px;
       border-radius: 10px;
       border: none;
-      margin-bottom: 10px;
       text-align: right;
+      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: inherit;
     }
 
     .calc-buttons {
@@ -88,88 +108,102 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      background: #888;
+      background: linear-gradient(135deg, #7f00ff, #e100ff);
       color: #fff;
+      box-shadow: 0 2px 8px rgba(128, 0, 255, 0.5);
+      transition: transform 0.2s ease;
     }
 
-    body.light .calc-btn {
-      background: #333;
+    .calc-btn:hover {
+      transform: scale(1.05);
     }
+
+    /* Theme buttons */
+    .theme-options button {
+      margin: 5px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .dark-btn { background: #222; color: #fff; }
+    .light-btn { background: #ddd; color: #222; }
+    .red-btn { background: #900; color: #fff; }
   </style>
 </head>
-<body>
+<body class="dark">
   <div class="ui-box">
-    <button class="glass-btn" id="trollBtn">Click Me</button>
-    <button class="glass-btn" id="fullscreenBtn">Fullscreen</button>
-    <button class="glass-btn" id="youtubeBtn">Random YouTube</button>
-    <button class="glass-btn" id="calcBtn">Calculator + Theme Toggle</button>
+    <!-- Tab Buttons -->
+    <div class="tab-buttons">
+      <button class="tab-btn" data-tab="troll">Troll</button>
+      <button class="tab-btn" data-tab="calc">Calculator</button>
+      <button class="tab-btn" data-tab="theme">Themes</button>
+    </div>
 
-    <div class="calculator" id="calculator">
-      <input type="text" id="calcDisplay" readonly>
-      <div class="calc-buttons">
-        <button class="calc-btn">7</button>
-        <button class="calc-btn">8</button>
-        <button class="calc-btn">9</button>
-        <button class="calc-btn">/</button>
-        <button class="calc-btn">4</button>
-        <button class="calc-btn">5</button>
-        <button class="calc-btn">6</button>
-        <button class="calc-btn">*</button>
-        <button class="calc-btn">1</button>
-        <button class="calc-btn">2</button>
-        <button class="calc-btn">3</button>
-        <button class="calc-btn">-</button>
-        <button class="calc-btn">0</button>
-        <button class="calc-btn">.</button>
-        <button class="calc-btn">=</button>
-        <button class="calc-btn">+</button>
+    <!-- Tab Contents -->
+    <div id="troll" class="tab-content active">
+      <button id="trollBtn">Click Me</button>
+    </div>
+
+    <div id="calc" class="tab-content">
+      <div class="calculator">
+        <input type="text" id="calcDisplay" readonly>
+        <div class="calc-buttons">
+          <button class="calc-btn">7</button>
+          <button class="calc-btn">8</button>
+          <button class="calc-btn">9</button>
+          <button class="calc-btn">/</button>
+          <button class="calc-btn">4</button>
+          <button class="calc-btn">5</button>
+          <button class="calc-btn">6</button>
+          <button class="calc-btn">*</button>
+          <button class="calc-btn">1</button>
+          <button class="calc-btn">2</button>
+          <button class="calc-btn">3</button>
+          <button class="calc-btn">-</button>
+          <button class="calc-btn">0</button>
+          <button class="calc-btn">.</button>
+          <button class="calc-btn">=</button>
+          <button class="calc-btn">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="theme" class="tab-content">
+      <h3>Select Theme</h3>
+      <div class="theme-options">
+        <button class="dark-btn">Dark</button>
+        <button class="light-btn">Light</button>
+        <button class="red-btn">Red</button>
       </div>
     </div>
   </div>
 
   <script>
-    // Troll button toggle
+    // Tab switching
+    const tabs = document.querySelectorAll(".tab-btn");
+    const contents = document.querySelectorAll(".tab-content");
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        contents.forEach(c => c.classList.remove("active"));
+        document.getElementById(tab.dataset.tab).classList.add("active");
+      });
+    });
+
+    // Troll button
     const trollBtn = document.getElementById("trollBtn");
     trollBtn.addEventListener("click", () => {
       trollBtn.textContent = "YOU BEEN TROLLED";
       setTimeout(() => {
         trollBtn.textContent = "Click Me";
-      }, 10000); // revert after 10s
+      }, 10000);
     });
 
-    // Fullscreen button
-    document.getElementById("fullscreenBtn").addEventListener("click", () => {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
-      } else {
-        document.exitFullscreen();
-      }
-    });
-
-    // Random YouTube button
-    const youtubeLinks = [
-      "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "https://www.youtube.com/watch?v=QH2-TGUlwu4",
-      "https://www.youtube.com/watch?v=DLzxrzFCyOs",
-      "https://www.youtube.com/watch?v=j5a0jTc9S10"
-    ];
-    document.getElementById("youtubeBtn").addEventListener("click", () => {
-      const random = youtubeLinks[Math.floor(Math.random() * youtubeLinks.length)];
-      window.open(random, "_blank");
-    });
-
-    // Calculator + Theme toggle
-    const calcBtn = document.getElementById("calcBtn");
-    const calculator = document.getElementById("calculator");
+    // Calculator logic
     const display = document.getElementById("calcDisplay");
-    const buttons = document.querySelectorAll(".calc-btn");
-
-    calcBtn.addEventListener("click", () => {
-      calculator.style.display = calculator.style.display === "block" ? "none" : "block";
-      document.body.classList.toggle("light");
-    });
-
-    buttons.forEach(btn => {
+    const calcButtons = document.querySelectorAll(".calc-btn");
+    calcButtons.forEach(btn => {
       btn.addEventListener("click", () => {
         if (btn.textContent === "=") {
           try {
@@ -181,6 +215,17 @@
           display.value += btn.textContent;
         }
       });
+    });
+
+    // Theme switching
+    document.querySelector(".dark-btn").addEventListener("click", () => {
+      document.body.className = "dark";
+    });
+    document.querySelector(".light-btn").addEventListener("click", () => {
+      document.body.className = "light";
+    });
+    document.querySelector(".red-btn").addEventListener("click", () => {
+      document.body.className = "red";
     });
   </script>
 </body>
