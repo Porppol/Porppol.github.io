@@ -14,22 +14,24 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      overflow: hidden;
     }
 
     .ui {
-      background: linear-gradient(135deg, #444, #666);
+      background: linear-gradient(135deg, rgba(168,85,247,0.7), rgba(126,34,206,0.7));
       padding: 20px;
       border-radius: 20px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 20px rgba(0,0,0,0.7);
+      backdrop-filter: blur(15px);
+      box-shadow: 0 0 30px rgba(168,85,247,0.7);
       width: 420px;
+      position: relative;
     }
 
     h1 {
       text-align: center;
       margin-bottom: 20px;
       font-size: 1.5rem;
-      color: #d4a3ff;
+      color: #f3e8ff;
     }
 
     .tabs {
@@ -42,16 +44,16 @@
       padding: 10px 15px;
       cursor: pointer;
       border-radius: 10px;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.15);
       transition: background 0.3s;
     }
 
     .tab:hover {
-      background: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.25);
     }
 
     .tab.active {
-      background: rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.35);
     }
 
     .content {
@@ -74,7 +76,7 @@
       cursor: pointer;
       color: white;
       background: linear-gradient(135deg, #a855f7, #7e22ce);
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(10px);
       box-shadow: 0 0 10px rgba(168,85,247,0.7);
       transition: transform 0.2s;
     }
@@ -97,6 +99,9 @@
       text-align: right;
       border-radius: 10px;
       border: none;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      backdrop-filter: blur(8px);
     }
 
     .calculator button {
@@ -104,17 +109,18 @@
       font-size: 1rem;
       border: none;
       border-radius: 10px;
-      background: rgba(255,255,255,0.1);
+      background: rgba(168,85,247,0.25);
       color: white;
       cursor: pointer;
       transition: background 0.3s;
+      backdrop-filter: blur(6px);
     }
 
     .calculator button:hover {
-      background: rgba(255,255,255,0.3);
+      background: rgba(168,85,247,0.5);
     }
 
-    /* Themes */
+    /* Theme options */
     .theme-option {
       margin: 5px 0;
       padding: 10px;
@@ -128,24 +134,63 @@
       background: rgba(255,255,255,0.3);
     }
 
-    /* Light theme */
-    body.light {
-      background: white;
-      color: black;
+    /* Suggestions toggle buttons */
+    #suggestionsBtn, #adminBtn {
+      position: absolute;
+      top: 10px;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(6px);
+      color: white;
     }
 
-    body.light .ui {
-      background: linear-gradient(135deg, #eee, #ccc);
+    #suggestionsBtn {
+      left: 10px;
     }
 
-    /* Red theme */
-    body.red {
-      background: #220000;
-      color: #ffaaaa;
+    #adminBtn {
+      right: 10px;
     }
 
-    body.red .ui {
-      background: linear-gradient(135deg, #660000, #aa0000);
+    /* Suggestions panel */
+    #suggestionsPanel, #adminPanel {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(135deg, rgba(168,85,247,0.9), rgba(126,34,206,0.9));
+      padding: 20px;
+      border-radius: 20px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 0 30px rgba(168,85,247,0.8);
+      width: 350px;
+      color: white;
+      z-index: 999;
+    }
+
+    #suggestionsPanel input, #suggestionsPanel textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 10px;
+      border: none;
+      background: rgba(255,255,255,0.2);
+      color: white;
+    }
+
+    #suggestionsPanel button, #adminPanel button {
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    #adminPanel {
+      max-height: 400px;
+      overflow-y: auto;
     }
   </style>
 </head>
@@ -191,10 +236,31 @@
 
     <!-- Themes Tab -->
     <div class="content" id="themes">
-      <div class="theme-option" onclick="setTheme('dark')">Dark Theme</div>
+      <div class="theme-option" onclick="setTheme('dark')">Purple Theme</div>
       <div class="theme-option" onclick="setTheme('light')">Light Theme</div>
       <div class="theme-option" onclick="setTheme('red')">Red Theme</div>
     </div>
+
+    <!-- Suggestions + Admin buttons -->
+    <button id="suggestionsBtn">Suggestions</button>
+    <button id="adminBtn">Admin</button>
+  </div>
+
+  <!-- Suggestions Panel -->
+  <div id="suggestionsPanel">
+    <h3>Submit a Suggestion</h3>
+    <input type="text" id="sugName" placeholder="Name here">
+    <input type="email" id="sugEmail" placeholder="Email here">
+    <textarea id="sugText" placeholder="What to add here"></textarea>
+    <button class="glass-button" onclick="submitSuggestion()">Submit</button>
+    <button class="glass-button" onclick="closeSuggestions()">Close</button>
+  </div>
+
+  <!-- Admin Panel -->
+  <div id="adminPanel">
+    <h3>Suggestions (Admin Only)</h3>
+    <div id="sugList"></div>
+    <button class="glass-button" onclick="closeAdmin()">Close</button>
   </div>
 
   <script>
@@ -257,6 +323,55 @@
     // Theme switcher
     function setTheme(theme) {
       document.body.className = theme === "dark" ? "" : theme;
+    }
+
+    // Suggestions
+    const suggestionsBtn = document.getElementById("suggestionsBtn");
+    const suggestionsPanel = document.getElementById("suggestionsPanel");
+    const adminBtn = document.getElementById("adminBtn");
+    const adminPanel = document.getElementById("adminPanel");
+    const sugList = document.getElementById("sugList");
+    let suggestions = [];
+
+    suggestionsBtn.addEventListener("click", () => {
+      suggestionsPanel.style.display = "block";
+    });
+
+    function closeSuggestions() {
+      suggestionsPanel.style.display = "none";
+    }
+
+    function submitSuggestion() {
+      const name = document.getElementById("sugName").value;
+      const email = document.getElementById("sugEmail").value;
+      const text = document.getElementById("sugText").value;
+      if(name && email && text) {
+        suggestions.push({name, email, text});
+        alert("Suggestion submitted!");
+        document.getElementById("sugName").value = "";
+        document.getElementById("sugEmail").value = "";
+        document.getElementById("sugText").value = "";
+        closeSuggestions();
+      } else {
+        alert("Please fill out all fields.");
+      }
+    }
+
+    // Admin
+    adminBtn.addEventListener("click", () => {
+      const password = prompt("Enter Admin Password:");
+      if(password === "PurpleIsBest") {
+        sugList.innerHTML = suggestions.map(s => 
+          `<p><b>${s.name}</b> (${s.email}): ${s.text}</p>`
+        ).join("");
+        adminPanel.style.display = "block";
+      } else {
+        alert("Wrong password!");
+      }
+    });
+
+    function closeAdmin() {
+      adminPanel.style.display = "none";
     }
   </script>
 </body>
